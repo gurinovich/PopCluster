@@ -1,6 +1,8 @@
 # PopCluster
 PopCluster: a new algorithm to identify genetic variants with ethnicity-dependent effects
 
+Before running the program, make sure that R and PLINK are installed.
+
 To submit the job, run the following shell script that links all the files and scripts:
 
 *sh PopCluster.sh workdir scriptsdir filesdir eigensoftdir*
