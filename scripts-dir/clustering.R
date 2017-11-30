@@ -7,7 +7,6 @@ clusters.dir <- paste0(work.dir, "results/clusters/")
 
 ##### FUNCTIONS START ##########
 
-
 #returns elements (repeating elements are considered separate elements) that are in x but not i y
 vectdiff <- function(x,y) {
   x <- as.vector(x)
@@ -20,8 +19,7 @@ vectdiff <- function(x,y) {
       if (i == j) {
         z <- c(z,posx)
         y <- y[-posy]
-        break
-        
+        break    
       }
       posy <- posy + 1
     }
@@ -42,7 +40,6 @@ pcs <- vector()
 for (i in 1:numberPCs) {
 	pcs <- c(pcs,paste0("PC",i))
 }
-#pcs <- c("PC1","PC2","PC3","PC4","PC5","PC6")
 max.clust.size <- 100
 
 #save original parent cluster:
