@@ -13,6 +13,6 @@ To submit the job, run the following shell script that links all the files and s
 All the directories should end in "/", for example: "/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/"
 
 * **scripts-dir** folder contains R scripts
-* **files-dir** folder contains input files (see below for details)
-* **eigensoft-dir** folder contains EIGENSOFT files for calculating PCA from genome-wide genotype data
+* **files-dir** folder contains input files (see README.md in ./files-dir for details)
+* **eigensoft-dir** folder contains EIGENSOFT files for calculating PCA from genome-wide genotype data (see README.md in ./eigensoft-dir for details)
 * **results** folder will store the results of the PopCluster
