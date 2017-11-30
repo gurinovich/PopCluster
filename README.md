@@ -15,4 +15,4 @@ All the directories should end in "/", for example: "/restricted/projectnb/necs/
 * **scripts-dir** folder contains R scripts
 * **files-dir** folder contains input files (see below for details)
 * **eigensoft-dir** folder contains EIGENSOFT files for calculating PCA from genome-wide genotype data
-* **results** folder will contain the results of the PopCluster
+* **results** folder will store the results of the PopCluster
