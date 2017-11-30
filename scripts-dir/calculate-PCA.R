@@ -41,7 +41,7 @@ rm(fileConn)
 system(paste0("mkdir ", pca.dir, cluster,"/Eigen"),wait=T)
 setwd(paste0(pca.dir, cluster,"/Eigen"))
 ind <- read.table(paste0(pca.dir, cluster,"/Convert/all.ind"))
-#########################
+
 ### make list of related individuals and then set to related
 ibd <- read.table(IBD.file, header = T)
 
@@ -93,5 +93,5 @@ writeLines(c(paste0("genotypename: ", pca.dir, cluster, "/Convert/all.eigenstrat
              "snpweightoutname: phenotype_snp_wt.txt"), fileConn)
 close(fileConn)
 
-system(paste0(eigensoft.dir, "eigensrc/smartpca -p smartpca.par > pca.log"),wait=T)
+system(paste0(eigensoft.dir, "smartpca -p smartpca.par > pca.log"),wait=T)
 system(paste0("sed '1d' ", pca.dir, cluster, "/Eigen/phenotype.evec | tr -s ' ' | sed -e 's/^[ \t]*//' | cut -f 1-31 -d \" \" > ", analysis.dir, cluster, ".txt"),wait=T)
