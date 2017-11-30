@@ -34,3 +34,15 @@ To create IBD file, we use the following PLINK command:
 
 	plink  --file all_QC_pruned --genome --min 0.10 --out IBD-file
 	
+2. **mega-data-noPCs.csv**
+
+Create **mega-data-noPCs.csv** file with the following columns:
+
+* ID: ids for the subjects (should match the ids in provided PLINK file)
+* Family: family ids for the subjects (should match the family ids in provided PLINK file)
+* phenotype: 0 for controls and 1 for cases
+* columns for covariates (the same names will be used in **covariates.txt** file): covariates to be included in the model (the covariates included in the **covariates.txt** file only will be tested; here we can have more)
+* columns for SNPs to be tested (could be more than to be tested, but the names of the SNPs to be tested must match the names in the file **SNPs.txt**): dosages for the SNPs/alleles to be tested by the algorithm
+ 
+
+  
