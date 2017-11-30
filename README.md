@@ -5,11 +5,14 @@ To submit the job, run the following shell script that links all the files and s
 
 *sh PopCluster.sh workdir scriptsdir filesdir eigensoftdir*
 
-* workdir: where the PopCluster.sh is located and where you want results to be stored.
-* scriptsdir: scripts-dir folder
-* filesdir: files-dir folder
-* eigensoftdir: eigensoft-dir folder
+* workdir: where the PopCluster.sh is located and where you want results to be saved.
+* scriptsdir: scripts-dir folder here
+* filesdir: files-dir folder here
+* eigensoftdir: eigensoft-dir folder here
 
 All the directories should end in "/", for example: "/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/"
 
-**scripts-dir** folder contains R scripts
+* **scripts-dir** folder contains R scripts
+* **files-dir** folder contains input files (see below for details)
+* **eigensoft-dir** folder contains EIGENSOFT files for calculating PCA from genome-wide genotype data
+* **results** folder will contain the results of the PopCluster
