@@ -38,7 +38,6 @@ system(paste0(eigensoft.dir, "convertf -p par.PED.EIGENSTRAT > convert.log"),wai
 rm(fileConn)
 
 #Eigen:
-
 system(paste0("mkdir ", pca.dir, cluster,"/Eigen"),wait=T)
 setwd(paste0(pca.dir, cluster,"/Eigen"))
 ind <- read.table(paste0(pca.dir, cluster,"/Convert/all.ind"))
