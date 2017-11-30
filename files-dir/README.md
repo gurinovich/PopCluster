@@ -27,3 +27,10 @@ First, we get a list of SNPs that we want to keep in the following command:
 Then, we extract that list of SNPs in the following command:
 
 	plink --bfile all_qc --extract all_qc_pruned.prune.in --make-bed --out all_QC_pruned
+
+2. **IBD.genome**: identity by descent file.
+
+To create IBD file, we use the following PLINK command:
+
+	plink  --file all_QC_pruned --genome --min 0.10 --out IBD-file
+	
