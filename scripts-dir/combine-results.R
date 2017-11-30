@@ -74,8 +74,6 @@ merge.into.parent <- function(sib1,sib2,cluster.member) {
 
 report.children <- function(sib1,sib2,cluster.member) {
   to.remove <- vector()
-#  top.cluster <- max(cluster.member$Parent)
-#  while(who.is.parent(sib1,cluster.member) != top.cluster & length(who.is.parent(sib1,cluster.member)) != 0) {
   while(length(who.is.parent(sib1,cluster.member)) != 0 & !is.na(who.is.parent(sib1,cluster.member))) {
     to.remove <- c(to.remove,who.is.parent(sib1,cluster.member))
     sib1 <- who.is.parent(sib1,cluster.member)
@@ -86,7 +84,7 @@ report.children <- function(sib1,sib2,cluster.member) {
 
 bottom.up <- function(cluster.member,input,signif.level) {
 
-#1) find pairs of leaves that have siblings who are also leaves and they have parent
+#find pairs of leaves that have siblings who are also leaves and they have parent
   sibling.leaves.with.parents <- find.sibling.leaves.with.parents(cluster.member)
   
   if(length(sibling.leaves.with.parents) == 0) {return(cluster.member)}
@@ -112,23 +110,16 @@ bottom.up <- function(cluster.member,input,signif.level) {
         cluster.member <- merge.into.parent(sib1,sib2,cluster.member)
       }
     }  
-#  }
-
   cluster.member <- bottom.up(cluster.member,input,signif.level)  
   return(cluster.member)
 }
-
 
 # ----------------------- END FUNCTIONS ----------------------------
 
 file.names <- dir(files.dir)
 
-#output <- data.frame(matrix(NA,nrow=1,ncol=18))
-#names(output) <- c("Clusters","PC1.b","PC1.p","PC1.SE","PC2.b","PC2.p","PC2.SE","PC3.b","PC3.p","PC3.SE", "PC4.b","PC4.p","PC4.SE", "GLM.b","GLM.p", "GLM.SE","Allele","Clust.sib")
-
 output <- data.frame(matrix(NA,nrow=1,ncol=6))
 names(output) <- c("Clusters","GLM.b","GLM.p", "GLM.SE","Allele","Clust.sib")
-
 
 for (i in 1:length(file.names)) {
   cluster.member.t <- cluster.member
@@ -156,15 +147,12 @@ for (i in 1:length(file.names)) {
   
   t1 <- bottom.up(cluster.member.t,input,signif.level)
   colnames(t1) <- c("Clusters","Cluster1","Cluster2")
-#  sum(as.numeric(t1$Clusters))
-#  sum(as.numeric(as.character(t1$Clusters)))
 
   if (nrow(t1) == 1) {
     clust <- as.character(t1$Clusters)
     clust.p <- input[which(input$Clusters == clust),c("GLM.p")]
     if (clust.p >= signif.level) next
   }
-
 
   t2 <- merge(t1,input)
   t2 <- t2[,-which(names(t2) %in% c("Cluster1","Cluster2"))]
@@ -186,7 +174,6 @@ for (i in 1:length(file.names)) {
 output <- output[-which(is.na(output$Allele)),]
 
 output$norm.betta <- output$GLM.b/output$GLM.SE
-#output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE","PC1.b",      "PC1.p","PC1.SE","PC2.b","PC2.p","PC2.SE","PC3.b","PC3.p","PC3.SE","PC4.b","PC4.p","PC4.SE")]
 output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
 
 write.table(output,paste0(work.dir,"results-0.05.csv"),quote=F,sep=",",row.names=F)
