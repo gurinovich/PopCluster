@@ -1,21 +1,15 @@
 #!/bin/bash
 
-#To run type qsub -l h_rt=240:00:00 -P necs -b y -cwd -j y -l mem_free=64g -m ae -M agurinov@bu.edu sh PopCluster.sh
-
 module load EIGENSOFT
 module load R
 module load plink
 
-# Things to change - INPUT ARGUMENTS:
-
 #DIRECTORIES:
 #working directory (where PopClsuter.sh is located & all other folders (scripts-dir and files-dir) & files)
-WORKDIR=/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/
-SCRIPTSDIR=$WORKDIR"scripts-dir/"
-FILESDIR=$WORKDIR"files-dir/"
-#EIGENSOFTDIR=/share/apps/6.0/EIG/EIG5.0.1_gnu447_x86_64/bin/
-#EIGENSOFTDIR: where convertf.c and smartpca.c are located
-EIGENSOFTDIR=/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/EIG-7.2.1/src/
+WORKDIR=$1
+SCRIPTSDIR=$2
+FILESDIR=$3
+EIGENSOFTDIR=$4
 
 #FILES:
 #bed/bim/fam file that consists all the subjects to analyze (+ there could be more)(Plink format - QCd and imputed)
