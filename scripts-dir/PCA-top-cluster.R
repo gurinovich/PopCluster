@@ -85,7 +85,7 @@ writeLines(c(paste0("genotypename: ", pca.dir, "Convert/all.eigenstratgeno"),
              "snpweightoutname: phenotype_snp_wt.txt"), fileConn)
 close(fileConn)
 
-system(paste0(eigensoft.dir, "eigensrc/smartpca -p smartpca.par > pca.log"), wait=T)
+system(paste0(eigensoft.dir, "smartpca -p smartpca.par > pca.log"), wait=T)
 system(paste0("sed '1d' phenotype.evec | tr -s ' ' | sed -e 's/^[ \t]*//' | cut -f 1-31 -d \" \" > top-cluster.txt"), wait=T)
 
 # add recalculated PCs to mega.data (some subjects that are too outliers might get removed)
