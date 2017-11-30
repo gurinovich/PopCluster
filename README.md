@@ -5,10 +5,10 @@ To submit the job, run the following shell script that links all the files and s
 
 *sh PopCluster.sh workdir scriptsdir filesdir eigensoftdir*
 
-workdir: where the PopCluster.sh is located and where you want results to be stored.
-scriptsdir: scripts-dir folder
-filesdir: files-dir folder
-eigensoftdir: eigensoft-dir folder
+* workdir: where the PopCluster.sh is located and where you want results to be stored.
+* scriptsdir: scripts-dir folder
+* filesdir: files-dir folder
+* eigensoftdir: eigensoft-dir folder
 
 All the directories should end in "/", for example: "/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/"
 
