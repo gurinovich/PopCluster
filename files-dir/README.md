@@ -52,11 +52,40 @@ Create **mega-data-noPCs.csv** file with the following columns:
  
 ## How we simulated the example files
 
-1. Downloaded hapmap1.map/ped files from http://zzz.bwh.harvard.edu/plink/tutorial.shtml on November 30, 2017
+1. Downloaded **hapmap1.map/ped** files from http://zzz.bwh.harvard.edu/plink/tutorial.shtml on November 30, 2017
 2. Converted PLINK map/ped format to bed/bim fam format using the following PLINK command:
 
-```plink --file hapmap1 --make-bed --out all_QC_pruned```
+```plink --file hapmap1 --make-bed --out all_QC_pruned
+```
 
+3. Modified **all_QC_pruned.fam** file for it to have unique sample IDs:
 
+#### Go to R: ##############################################################
+	library(dplyr)
+	library(data.table)
+	fam <- fread("all_QC_pruned.fam")
+	fam <- tbl_df(fam)
+	fam$V2 <- seq(1, nrow(fam))
+	write.table(fam, file = "all_QC_pruned.fam", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
-  
+4. Created **IBG.genome** file using the following PLINK command:
+
+```plink --bfile all_QC_pruned --genome --min 0.10 --out IBD
+```
+
+5. Created **mega-data-noPCs.csv** file:
+
+#### Go to R: ##############################################################
+	library(dplyr)
+	library(data.table)
+	fam <- fread("all_QC_pruned.fam")
+	fam <- tbl_df(fam)
+	mega.data <- data_frame(ID = fam$V2,
+                        Family = fam$V1,
+                        phenotype = sample(0:1, nrow(fam), replace = TRUE),
+                        covariate1 = sample(1:2, nrow(fam), replace = TRUE),
+                        covariate2 = sample(1:2, nrow(fam), replace = TRUE),
+                        SNP1 = sample(0:2, nrow(fam), replace = TRUE),
+                        SNP2 = sample(0:2, nrow(fam), replace = TRUE),
+                        SNP3 = sample(0:2, nrow(fam), replace = TRUE))
+	write.table(mega.data, file = "mega-data-noPCs.csv", quote = FALSE, sep = ",", row.names = FALSE)
