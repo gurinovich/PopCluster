@@ -1,0 +1,3 @@
+SNP1
+SNP2
+SNP3
