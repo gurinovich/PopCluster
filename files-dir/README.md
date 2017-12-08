@@ -55,8 +55,7 @@ Create **mega-data-noPCs.csv** file with the following columns:
 1. Downloaded **hapmap1.map/ped** files from http://zzz.bwh.harvard.edu/plink/tutorial.shtml on November 30, 2017
 2. Converted PLINK map/ped format to bed/bim fam format using the following PLINK command:
 
-```plink --file hapmap1 --make-bed --out all_QC_pruned
-```
+```plink --file hapmap1 --make-bed --out all_QC_pruned```
 
 3. Modified **all_QC_pruned.fam** file for it to have unique sample IDs:
 
@@ -70,8 +69,7 @@ Create **mega-data-noPCs.csv** file with the following columns:
 
 4. Created **IBG.genome** file using the following PLINK command:
 
-```plink --bfile all_QC_pruned --genome --min 0.10 --out IBD
-```
+```plink --bfile all_QC_pruned --genome --min 0.10 --out IBD```
 
 5. Created **mega-data-noPCs.csv** file:
 
