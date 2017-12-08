@@ -50,5 +50,12 @@ Create **mega-data-noPCs.csv** file with the following columns:
 
 5. **SNPs.txt** file contains one column with variants names to be tested
  
+**How we simulated the example files***
+
+1. downloaded hapmap1.map/ped files from http://zzz.bwh.harvard.edu/plink/tutorial.shtml on November 30, 2017
+2. Converted PLINK map/ped format to bed/bim fam format using the following PLINK command:
+
+	plink --file hapmap1 --make-bed --out all_QC_pruned
+	
 
   
