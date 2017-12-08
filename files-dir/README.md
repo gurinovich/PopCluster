@@ -56,6 +56,7 @@ Create **mega-data-noPCs.csv** file with the following columns:
 2. Converted PLINK map/ped format to bed/bim fam format using the following PLINK command:
 
 	plink --file hapmap1 --make-bed --out all_QC_pruned
-	
+
+
 
   
