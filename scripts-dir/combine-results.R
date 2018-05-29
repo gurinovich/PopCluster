@@ -1,3 +1,5 @@
+library(dplyr)
+
 args = commandArgs(trailingOnly=TRUE)
 
 work.dir <- args[1]
