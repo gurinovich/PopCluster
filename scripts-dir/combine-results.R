@@ -121,59 +121,74 @@ file.names <- dir(files.dir)
 output <- data.frame(matrix(NA,nrow=1,ncol=6))
 names(output) <- c("Clusters","GLM.b","GLM.p", "GLM.SE","Allele","Clust.sib")
 
-for (i in 1:length(file.names)) {
-  cluster.member.t <- cluster.member
-  input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
+if (nrow(cluster.member) == 0) {
+  for (i in 1:length(file.names)) {
+    input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
+    output[i, 1:17 ] <- as.vector(unlist(c(input[1,], sub(".txt", "", file.names[i]))))
+  }
+  
+  output$norm.betta <- as.numeric(output$GLM.b)/as.numeric(output$GLM.SE)
+  output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE","PC1.b", "PC1.p","PC1.SE","PC2.b","PC2.p","PC2.SE","PC3.b","PC3.p","PC3.SE","PC4.b","PC4.p","PC4.SE")]
+  output <- as.tbl(output)
+  output$GLM.p <- as.numeric(output$GLM.p)
+  output <- output %>% 
+    filter(GLM.p < 0.05)
+} else {
+  
+  for (i in 1:length(file.names)) {
+    cluster.member.t <- cluster.member
+    input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
   
 # check if there are NA entries and adjust input & cluster.member accordingly
-  if (any(apply(input,2,function(x) any(is.na(x))))) {
-    clusts.na <- input[which(is.na(input$GLM.b)),c("Clusters")]
-    siblings <- vector()
-    for (j in 1:length(clusts.na)) {
-      siblings <- c(siblings,find.sibling(clusts.na[j],cluster.member.t))
-    }
-    clusts.na <- unique(c(clusts.na,siblings))
-    leaves <- cluster.member.t[which(cluster.member.t$Cluster1 == "." & cluster.member.t$Cluster2 == "."),c("Parent")]
-    #if all the NA entries are leaves:
-    if (length(intersect(clusts.na,leaves)) == length(clusts.na)) {
+    if (any(apply(input,2,function(x) any(is.na(x))))) {
+      clusts.na <- input[which(is.na(input$GLM.b)),c("Clusters")]
+      siblings <- vector()
       for (j in 1:length(clusts.na)) {
-        if (any(cluster.member.t$Parent %in% clusts.na[j])) {
-        cluster.member.t <- merge.into.parent(find.children(who.is.parent(clusts.na[j],cluster.member.t),cluster.member.t)[1],find.children(who.is.parent(clusts.na[j],cluster.member.t),cluster.member.t)[2],cluster.member.t)
-        } else next
+        siblings <- c(siblings,find.sibling(clusts.na[j],cluster.member.t))
       }
-    } else next
-  }
+      clusts.na <- unique(c(clusts.na,siblings))
+      leaves <- cluster.member.t[which(cluster.member.t$Cluster1 == "." & cluster.member.t$Cluster2 == "."),c("Parent")]
+    #if all the NA entries are leaves:
+      if (length(intersect(clusts.na,leaves)) == length(clusts.na)) {
+        for (j in 1:length(clusts.na)) {
+          if (any(cluster.member.t$Parent %in% clusts.na[j])) {
+            cluster.member.t <- merge.into.parent(find.children(who.is.parent(clusts.na[j],cluster.member.t),cluster.member.t)[1],find.children(who.is.parent(clusts.na[j],cluster.member.t),cluster.member.t)[2],cluster.member.t)
+          } else next
+        }
+      } else next
+    }
   
   
-  t1 <- bottom.up(cluster.member.t,input,signif.level)
-  colnames(t1) <- c("Clusters","Cluster1","Cluster2")
+    t1 <- bottom.up(cluster.member.t,input,signif.level)
+    colnames(t1) <- c("Clusters","Cluster1","Cluster2")
 
-  if (nrow(t1) == 1) {
-    clust <- as.character(t1$Clusters)
-    clust.p <- input[which(input$Clusters == clust),c("GLM.p")]
-    if (clust.p >= signif.level) next
-  }
+    if (nrow(t1) == 1) {
+      clust <- as.character(t1$Clusters)
+      clust.p <- input[which(input$Clusters == clust),c("GLM.p")]
+      if (clust.p >= signif.level) next
+    }
 
-  t2 <- merge(t1,input)
-  t2 <- t2[,-which(names(t2) %in% c("Cluster1","Cluster2"))]
-  t2$Allele <- rep(sub(".txt","",file.names[i]),nrow(t2))
+    t2 <- merge(t1,input)
+    t2 <- t2[,-which(names(t2) %in% c("Cluster1","Cluster2"))]
+    t2$Allele <- rep(sub(".txt","",file.names[i]),nrow(t2))
 
-  clust.temp <- t2$Clusters 
-  sib.temp <- vector()
-  for (j in 1:length(clust.temp)) {
-    sib.temp <- c(sib.temp, find.sibling(clust.temp[j],cluster.member))
-    if (!(sib.temp[j] %in% clust.temp)) sib.temp[j] <- NA
-  }
+    clust.temp <- t2$Clusters 
+    sib.temp <- vector()
+    for (j in 1:length(clust.temp)) {
+      sib.temp <- c(sib.temp, find.sibling(clust.temp[j],cluster.member))
+      if (!(sib.temp[j] %in% clust.temp)) sib.temp[j] <- NA
+    }
 
-  t2$Clust.sib <- sib.temp
+    t2$Clust.sib <- sib.temp
 
-  output <- rbind(output,t2)
+    output <- rbind(output,t2)
   
+  }
+
+  output <- output[-which(is.na(output$Allele)),]
+
+  output$norm.betta <- output$GLM.b/output$GLM.SE
+  output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
 }
-
-output <- output[-which(is.na(output$Allele)),]
-
-output$norm.betta <- output$GLM.b/output$GLM.SE
-output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
-
+                  
 write.table(output,paste0(work.dir,"results-0.05.csv"),quote=F,sep=",",row.names=F)
