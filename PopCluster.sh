@@ -7,14 +7,14 @@ module load plink
 #DIRECTORIES:
 #working directory (where PopClsuter.sh is located & all other folders (scripts-dir and files-dir) & files)
 WORKDIR=$1
-SCRIPTSDIR=$2
-FILESDIR=$3
-EIGENSOFTDIR=$4
+SCRIPTSDIR=$WORKDIR"scripts-dir/"
+FILESDIR=$WORKDIR"files-dir/"
+EIGENSOFTDIR=$WORKDIR"eigensoft-dir/"
 
 #FILES:
 #bed/bim/fam file that consists all the subjects to analyze (+ there could be more)(Plink format - QCd and imputed)
 genotypeData=$FILESDIR"all_QC_pruned"
-IBD=$FILESDIR"IBD.7.18.2015.genome"
+IBD=$FILESDIR"IBD.genome"
 #mega-file without PCs with all the subjects and SNPs to analyze (subjects must be present in $genotypeData file) and with the covariates and binary phenotype info
 megaData=$FILESDIR"mega-data-noPCs.csv"
 covariates=$FILESDIR"covariates.txt"
