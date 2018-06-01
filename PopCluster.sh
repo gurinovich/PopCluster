@@ -1,9 +1,5 @@
 #!/bin/bash
 
-module load EIGENSOFT
-module load R
-module load plink
-
 #DIRECTORIES:
 #working directory (where PopClsuter.sh is located & all other folders (scripts-dir and files-dir) & files)
 WORKDIR=$1
