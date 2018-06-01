@@ -7,9 +7,9 @@ module load plink
 #DIRECTORIES:
 #working directory (where PopClsuter.sh is located & all other folders (scripts-dir and files-dir) & files)
 WORKDIR=$1
-SCRIPTSDIR=$WORKDIR"scripts-dir/"
-FILESDIR=$WORKDIR"files-dir/"
-EIGENSOFTDIR=$WORKDIR"eigensoft-dir/"
+SCRIPTSDIR=$2
+FILESDIR=$3
+EIGENSOFTDIR=$4
 
 #FILES:
 #bed/bim/fam file that consists all the subjects to analyze (+ there could be more)(Plink format - QCd and imputed)
