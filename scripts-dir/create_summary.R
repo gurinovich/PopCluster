@@ -6,8 +6,6 @@ res.dir <- paste0(work.dir,"full-summary/")
 analysis.dir <- paste0(work.dir,"analysis/")
 clusters.dir <- paste0(work.dir,"clusters/")
 files.dir <- args[2]
-PCsNumber <- 4
-family <- "binomial"
 mega.data <- read.csv(paste0(files.dir,"mega-data.csv"))
 mega.data <- subset(mega.data,select=-c(PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8))
 snps <- read.csv(args[3],header=F,as.is=T)
@@ -15,6 +13,13 @@ alleles <- snps$V1
 covariates <- read.csv(args[4],header=F,as.is=T)
 covariates <- covariates$V1
 cov.string <- paste0(paste(covariates, collapse="+"),"+")
+PCsNumber <- as.numeric(args[5])
+pcs <- vector()
+for (i in 1:PCsNumber) {
+    pcs <- c(pcs,paste0("PC",i))
+}
+PCs.string <- paste0(paste(pcs, collapse="+"),"+")
+family <- args[6]
 
 file.names <- dir(analysis.dir)
 
@@ -30,7 +35,7 @@ for (i in 1:length(alleles)) {
         colnames(cluster) <- pca.names
         mega.data.cluster <- merge(cluster,mega.data,by="ID")  
         
-        mod <- glm(paste0("phenotype~",cov.string,"PC1+PC2+PC3+PC4+",alleles[i]), family=family, data=mega.data.cluster)
+        mod <- glm(paste0("phenotype~",cov.string, PCs.string, alleles[i]), family=family, data=mega.data.cluster)
         output[j,c("GLM.b")] <-  as.numeric(coef(summary(mod))[,1][nrow(coef(summary(mod)))])  #betta
         output[j,c("GLM.p")] <-  as.numeric(coef(summary(mod))[,4][nrow(coef(summary(mod)))])  #p-value
         output[j,c("GLM.SE")] <-  as.numeric(coef(summary(mod))[,2][nrow(coef(summary(mod)))])   #SE for the betta
