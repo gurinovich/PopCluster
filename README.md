@@ -24,22 +24,21 @@ in R:
 *chmod a=rwx smartpca*
 
 ## Execution
-To submit the job, run the following shell script that links all the files and scripts:
+To submit the job, run the following shell script:
 
-*sh PopCluster.sh workdir scriptsdir filesdir eigensoftdir*
+*sh PopCluster.sh arguments.txt*
 
-* workdir: where the PopCluster.sh is located and where you want results to be saved.
-* scriptsdir: scripts-dir folder here
-* filesdir: files-dir folder here
-* eigensoftdir: eigensoft-dir folder here
+**arguments.txt** file contains arguments that include paths that need to be changed and default values for parameters that can be changed as well:
+
+* WORKDIR: where the PopCluster.sh is located and where you want results to be saved.
+* SCRIPTSDIR: scripts-dir folder here (contains R scripts)
+* FILESDIR: files-dir folder here (contains input files (see README.md in ./files-dir for details))
+* EIGENSOFTDIR: eigensoft-dir folder here (contains EIGENSOFT files for calculating PCA from genome-wide genotype data (see README.md in ./eigensoft-dir for details))
+* ClusteringPCs: number of principal components used for clustering (default: 6)
+* maxclustsize: minimum cluster sizet to be included in the analysis (default: 100)
+* GLMPCs: number of principal components included in the logistic regression (default: 4)
+* GLMfamily: link function to be used in the generalized linear model (default: binomial - for logistic regression)
 
 All the directories should be complete paths and should end in "/", for example: "/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/".
 
-Example of running:
-
-*sh PopCluster.sh /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/ /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/scripts-dir/ /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/files-dir/ /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/eigensoft-dir/*
-
-* **scripts-dir** folder contains R scripts
-* **files-dir** folder contains input files (see README.md in ./files-dir for details)
-* **eigensoft-dir** folder contains EIGENSOFT files for calculating PCA from genome-wide genotype data (see README.md in ./eigensoft-dir for details)
 * **results** folder will be created after running the PopCluster.sh and will store the results of the PopCluster
