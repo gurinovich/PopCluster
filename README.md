@@ -6,7 +6,9 @@ PopCluster: a new algorithm to identify genetic variants with ethnicity-dependen
 * Load respective modules:
 
 *module load EIGENSOFT*
+
 *module load R*
+
 *module load plink*
 
 * Install R dplyr package if not installed already:
