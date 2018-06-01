@@ -101,6 +101,7 @@ for (i in index) {
 
 output$Parent <- gsub("cluster.","",clust.names)
 
+###############
 ## identify clusters that don't have siblings for removal:
 to.remove <- vector()
 to.remove <- output[which(!is.na(output$Cluster1) & is.na(output$Cluster2)),"Cluster1"]
@@ -147,6 +148,10 @@ addit.leaves <- addit.leaves[-which(addit.leaves == top.parent)]
 for (i in addit.leaves) {
   row <- c(i,".",".")
   output.temp <- rbind(output.temp,row)
+}
+
+if (nrow(output.temp) == 1 & is.na(output.temp$Cluster1) & is.na(output.temp$Cluster2)) {
+  output.temp <- output.temp[-1,]
 }
 
 write.table(output.temp,paste0(res.dir,"cluster_membership.txt"), quote=F, sep=",",na=".",row.names=F)
