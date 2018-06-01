@@ -1,6 +1,8 @@
 args = commandArgs(trailingOnly=TRUE)
 
 work.dir <- args[1]
+numberPCs <- as.numeric(args[2])
+max.clust.size <- as.numeric(args[3])
 system(paste0("mkdir ", work.dir,"results"),wait=T)
 system(paste0("mkdir ", work.dir,"results/clusters"),wait=T)
 clusters.dir <- paste0(work.dir, "results/clusters/")
@@ -35,12 +37,12 @@ vectdiff <- function(x,y) {
 #load data
 mega.data <- read.csv(paste0(work.dir, "mega-data.csv"))
 
-numberPCs <- 6
+
 pcs <- vector()
 for (i in 1:numberPCs) {
 	pcs <- c(pcs,paste0("PC",i))
 }
-max.clust.size <- 100
+
 
 #save original parent cluster:
 write.table(mega.data[,c("Family","ID")],file=paste0(clusters.dir,"cluster.",nrow(mega.data),".txt"), quote=F, row.names=F, col.names=F)
