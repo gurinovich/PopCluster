@@ -17,6 +17,12 @@ in R:
 
 *install.packages("dplyr")*
 
+* For files in eigensoft-dir folder, make sure the priviliges are set up appropriately. In eigensoft-dir:
+
+*chmod a=rwx convertf*
+
+*chmod a=rwx smartpca*
+
 ## Execution
 To submit the job, run the following shell script that links all the files and scripts:
 
