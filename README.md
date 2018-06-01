@@ -1,6 +1,7 @@
 # PopCluster
 PopCluster: a new algorithm to identify genetic variants with ethnicity-dependent effects
 
+## Dependencies
 Before running the program, make sure that R and PLINK are installed.
 
 To submit the job, run the following shell script that links all the files and scripts:
@@ -12,7 +13,11 @@ To submit the job, run the following shell script that links all the files and s
 * filesdir: files-dir folder here
 * eigensoftdir: eigensoft-dir folder here
 
-All the directories should end in "/", for example: "/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/"
+All the directories should be complete paths and should end in "/", for example: "/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/".
+
+Example of running:
+
+*sh PopCluster.sh /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/ /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/scripts-dir/ /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/files-dir/ /restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/eigensoft-dir/*
 
 * **scripts-dir** folder contains R scripts
 * **files-dir** folder contains input files (see README.md in ./files-dir for details)
