@@ -1,11 +1,6 @@
 #!/bin/bash
 
-#DIRECTORIES:
-#working directory (where PopClsuter.sh is located & all other folders (scripts-dir and files-dir) & files)
-WORKDIR=$1
-SCRIPTSDIR=$2
-FILESDIR=$3
-EIGENSOFTDIR=$4
+source $1
 
 #FILES:
 #bed/bim/fam file that consists all the subjects to analyze (+ there could be more)(Plink format - QCd and imputed)
@@ -18,7 +13,7 @@ SNPs=$FILESDIR"SNPs.txt"
 
 # The code (not to change):
 Rscript $SCRIPTSDIR"PCA-top-cluster.R" $WORKDIR $EIGENSOFTDIR $megaData $genotypeData $IBD --save
-Rscript $SCRIPTSDIR"clustering.R" $WORKDIR --save
+Rscript $SCRIPTSDIR"clustering.R" $WORKDIR $ClusteringPCs $maxclustsize --save
 Rscript $SCRIPTSDIR"cluster_membership.R" $WORKDIR --save
 
 # Calculate PCA:
@@ -46,5 +41,5 @@ do
 done
 
 #PopCluster
-Rscript $SCRIPTSDIR"create_summary.R" $RESULTSDIR $WORKDIR $SNPs $covariates --save
+Rscript $SCRIPTSDIR"create_summary.R" $RESULTSDIR $WORKDIR $SNPs $covariates $GLMPCs $GLMfamily --save
 Rscript $SCRIPTSDIR"combine-results.R" $RESULTSDIR --save
