@@ -126,11 +126,11 @@ names(output) <- c("Clusters","GLM.b","GLM.p", "GLM.SE","Allele","Clust.sib")
 if (nrow(cluster.member) == 0) {
   for (i in 1:length(file.names)) {
     input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
-    output[i, 1:17 ] <- as.vector(unlist(c(input[1,], sub(".txt", "", file.names[i]))))
+    output[i, 1:5 ] <- as.vector(unlist(c(input[1,], sub(".txt", "", file.names[i]))))
   }
   
   output$norm.betta <- as.numeric(output$GLM.b)/as.numeric(output$GLM.SE)
-  output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE","PC1.b", "PC1.p","PC1.SE","PC2.b","PC2.p","PC2.SE","PC3.b","PC3.p","PC3.SE","PC4.b","PC4.p","PC4.SE")]
+  output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
   output <- as.tbl(output)
   output$GLM.p <- as.numeric(output$GLM.p)
   output <- output %>% 
