@@ -2,8 +2,20 @@
 PopCluster: a new algorithm to identify genetic variants with ethnicity-dependent effects
 
 ## Dependencies
-Before running the program, make sure that R and PLINK are installed.
+* Before running the program, make sure that R, PLINK, and EIGENSOFT (version 6.1.4) are installed.
+* Load respective modules:
 
+*module load EIGENSOFT*
+*module load R*
+*module load plink*
+
+* Install R dplyr package if not installed already:
+
+in R:
+
+*install.packages("dplyr")*
+
+## Execution
 To submit the job, run the following shell script that links all the files and scripts:
 
 *sh PopCluster.sh workdir scriptsdir filesdir eigensoftdir*
