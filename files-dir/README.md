@@ -1,7 +1,5 @@
 The files described below are required as input files to PopCluster. You will find example simulated files to check that the structure of input files is correct.
 
-Note: If you run PopCluster with simulated files provided here: the final results will be empty because there is no significant association between simulated phenotypes and SNPs. You will be able to see the structure of the final result though (in results-0.05.csv file).
-
 1. **all_QC_pruned.bed**, **all_QC_pruned.bim**, **all_QC_pruned.fam** PLINK files with genome-wide genotype data
 
 To get all_QC_pruned.bed/bim/fam the following QC should be performed on the original PLINK files:
