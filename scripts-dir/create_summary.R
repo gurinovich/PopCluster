@@ -19,22 +19,22 @@ cov.string <- paste0(paste(covariates, collapse="+"),"+")
 file.names <- dir(analysis.dir)
 
 for (i in 1:length(alleles)) {
-  output <- data.frame(matrix(NA,nrow=length(file.names),ncol=16))
-  names(output) <- c("Clusters","GLM.b","GLM.p","GLM.SE")
-  output$Clusters <- gsub(".txt","",file.names)
-  
-  for (j in 1:length(file.names)) {
+    output <- data.frame(matrix(NA,nrow=length(file.names),ncol=4))
+    names(output) <- c("Clusters","GLM.b","GLM.p","GLM.SE")
+    output$Clusters <- gsub(".txt","",file.names)
     
-    cluster <- read.table(paste0(analysis.dir,file.names[j]))
-    pca.names <- c("ID","PC1","PC2","PC3","PC4","PC5","PC6","PC7","PC8","PC9","PC10","PC11","PC12","PC13","PC14","PC15","PC16","PC17","PC18","PC19","PC20","PC21","PC22","PC23","PC24","PC25","PC26","PC27","PC28","PC29","PC30") 
-    colnames(cluster) <- pca.names
-    mega.data.cluster <- merge(cluster,mega.data,by="ID")  
- 
-    mod <- glm(paste0("phenotype~",cov.string,"PC1+PC2+PC3+PC4+",alleles[i]), family=family, data=mega.data.cluster)
-    output[j,c("GLM.b")] <-  as.numeric(coef(summary(mod))[,1][nrow(coef(summary(mod)))])  #betta
-    output[j,c("GLM.p")] <-  as.numeric(coef(summary(mod))[,4][nrow(coef(summary(mod)))])  #p-value
-    output[j,c("GLM.SE")] <-  as.numeric(coef(summary(mod))[,2][nrow(coef(summary(mod)))])   #SE for the betta
-    
-  }
-  write.table(output,paste0(res.dir,alleles[i],".txt"),quote=F,sep=",",row.names=F) 
+    for (j in 1:length(file.names)) {
+        
+        cluster <- read.table(paste0(analysis.dir,file.names[j]))
+        pca.names <- c("ID","PC1","PC2","PC3","PC4","PC5","PC6","PC7","PC8","PC9","PC10","PC11","PC12","PC13","PC14","PC15","PC16","PC17","PC18","PC19","PC20","PC21","PC22","PC23","PC24","PC25","PC26","PC27","PC28","PC29","PC30") 
+        colnames(cluster) <- pca.names
+        mega.data.cluster <- merge(cluster,mega.data,by="ID")  
+        
+        mod <- glm(paste0("phenotype~",cov.string,"PC1+PC2+PC3+PC4+",alleles[i]), family=family, data=mega.data.cluster)
+        output[j,c("GLM.b")] <-  as.numeric(coef(summary(mod))[,1][nrow(coef(summary(mod)))])  #betta
+        output[j,c("GLM.p")] <-  as.numeric(coef(summary(mod))[,4][nrow(coef(summary(mod)))])  #p-value
+        output[j,c("GLM.SE")] <-  as.numeric(coef(summary(mod))[,2][nrow(coef(summary(mod)))])   #SE for the betta
+        
+    }
+    write.table(output,paste0(res.dir,alleles[i],".txt"),quote=F,sep=",",row.names=F) 
 }
