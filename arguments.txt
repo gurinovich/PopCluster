@@ -1,0 +1,8 @@
+WORKDIR="/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/"
+SCRIPTSDIR="/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/scripts-dir/"
+FILESDIR="/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/files-dir/"
+EIGENSOFTDIR="/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/PopCluster/PopCluster-test2/eigensoft-dir/"
+ClusteringPCs=6
+maxclustsize=100
+GLMPCs=4
+GLMfamily="binomial"
