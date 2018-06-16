@@ -45,6 +45,7 @@ Create **mega-data-noPCs.csv** file with the following columns:
 * phenotype: 0 for controls and 1 for cases
 * columns for covariates (the same names will be used in **covariates.txt** file): covariates to be included in the model (the covariates included in the **covariates.txt** file only will be tested; here we can have more)
 * columns for SNPs to be tested (could be more than to be tested, but the names of the SNPs to be tested must match the names in the file **SNPs.txt**): dosages for the SNPs/alleles to be tested by the algorithm
+* family.id: in case of related individuals, please provide different numbers for different families. In case of no related individuals, or no knowledge about the relationships, please provide sequential numbers from 1 to the number of subjects. If there are related individuals, the algorithm will account for family structure through generalized estimating equation (GEE).
 
 4. **covariates.txt** file contains one column with covariates' names to be included in the association model
 
@@ -85,5 +86,6 @@ Create **mega-data-noPCs.csv** file with the following columns:
                         covariate2 = sample(1:2, nrow(fam), replace = TRUE),
                         SNP1 = sample(0:2, nrow(fam), replace = TRUE),
                         SNP2 = sample(0:2, nrow(fam), replace = TRUE),
-                        SNP3 = sample(0:2, nrow(fam), replace = TRUE))
+                        SNP3 = sample(0:2, nrow(fam), replace = TRUE),
+			family.id = seq(1, nrow(fam)))
 	write.table(mega.data, file = "mega-data-noPCs.csv", quote = FALSE, sep = ",", row.names = FALSE)
