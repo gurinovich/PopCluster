@@ -45,11 +45,6 @@ ind <- read.table(paste0(pca.dir, cluster,"/Convert/all.ind"))
 ### make list of related individuals and then set to related
 ibd <- read.table(IBD.file, header = T)
 
-#ibd[,1] <- gsub("Control", "Cont", ibd[,1])
-#ibd[,2] <- gsub("Control", "Cont", ibd[,2])
-#ibd[,3] <- gsub("Control", "Cont", ibd[,3])
-#ibd[,4] <- gsub("Control", "Cont", ibd[,4])
-
 which.ibd.keep <- which(as.character(ibd[,2]) %in% ind[,1] & 
                           as.character(ibd[,4]) %in% ind[,1] & ibd$PI_HAT > 0.2)
 length(which.ibd.keep)
