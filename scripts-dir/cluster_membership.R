@@ -3,7 +3,6 @@ args = commandArgs(trailingOnly=TRUE)
 work.dir <- args[1]
 res.dir <- paste0(work.dir, "results/")
 clust.dir <- paste0(res.dir, "clusters/")
-
 clust.files <- dir(clust.dir)
 clust.names <- gsub(".txt","",clust.files)
 
@@ -12,7 +11,6 @@ for (i in 1:length(clust.files)) {
   assign(clust.names[i],vector())
   clust.curr <- read.csv(paste0(clust.dir,clust.files[i]),sep=" ",header=F)
   names(clust.curr) <- c("Family","ID")
-  
   for (j in 1:length(clust.files)) {
     if (i == j) next
     clust.check <- read.csv(paste0(clust.dir,clust.files[j]),sep=" ",header=F)
@@ -101,8 +99,7 @@ for (i in index) {
 
 output$Parent <- gsub("cluster.","",clust.names)
 
-###############
-## identify clusters that don't have siblings for removal:
+# identify clusters that don't have siblings for removal:
 to.remove <- vector()
 to.remove <- output[which(!is.na(output$Cluster1) & is.na(output$Cluster2)),"Cluster1"]
 to.remove.keep <- to.remove
