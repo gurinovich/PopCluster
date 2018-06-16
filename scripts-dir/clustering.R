@@ -37,12 +37,10 @@ vectdiff <- function(x,y) {
 #load data
 mega.data <- read.csv(paste0(work.dir, "mega-data.csv"))
 
-
 pcs <- vector()
 for (i in 1:numberPCs) {
 	pcs <- c(pcs,paste0("PC",i))
 }
-
 
 #save original parent cluster:
 write.table(mega.data[,c("Family","ID")],file=paste0(clusters.dir,"cluster.",nrow(mega.data),".txt"), quote=F, row.names=F, col.names=F)
