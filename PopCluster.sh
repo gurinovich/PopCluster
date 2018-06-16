@@ -13,8 +13,11 @@ SNPs=$FILESDIR"SNPs.txt"
 
 # The code (not to change):
 Rscript $SCRIPTSDIR"PCA-top-cluster.R" $WORKDIR $EIGENSOFTDIR $megaData $genotypeData $IBD --save
+wait
 Rscript $SCRIPTSDIR"clustering.R" $WORKDIR $ClusteringPCs $maxclustsize --save
+wait
 Rscript $SCRIPTSDIR"cluster_membership.R" $WORKDIR --save
+wait
 
 # Calculate PCA:
 RESULTSDIR=$WORKDIR"results/"
@@ -26,6 +29,8 @@ PCADIR=$RESULTSDIR"PCA/"
 prefix="$CLUSTERSDIR"
 prefix+="cluster."
 suffix=".txt"
+
+wait
 
 for file in $CLUSTERSDIR*
 do
@@ -40,6 +45,9 @@ do
   fi
 done
 
+wait
+
 #PopCluster
 Rscript $SCRIPTSDIR"create_summary.R" $RESULTSDIR $WORKDIR $SNPs $covariates $GLMPCs $GLMfamily --save
+wait
 Rscript $SCRIPTSDIR"combine-results.R" $RESULTSDIR --save
