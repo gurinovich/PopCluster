@@ -89,7 +89,6 @@ system(paste0(eigensoft.dir, "smartpca -p smartpca.par > pca.log"), wait=T)
 system(paste0("sed '1d' phenotype.evec | tr -s ' ' | sed -e 's/^[ \t]*//' | cut -f 1-31 -d \" \" > top-cluster.txt"), wait=T)
 
 # add recalculated PCs to mega.data (some subjects that are too outliers might get removed)
-
 setwd(work.dir)
 pcs <- read.table(paste0(pca.dir,"/Eigen/top-cluster.txt"))
 colnames(pcs) <- c("ID","PC1","PC2","PC3","PC4","PC5","PC6","PC7","PC8")
@@ -98,4 +97,3 @@ temp <- merge(mega.data,pcs)
 temp <- temp[,c(colnames(mega.data),"PC1","PC2","PC3","PC4","PC5","PC6","PC7","PC8")]
 
 write.table(temp,file=paste0(work.dir,"mega-data.csv"),quote=F, sep=",",row.names=FALSE)
-
