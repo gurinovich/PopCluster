@@ -101,16 +101,21 @@ bottom.up <- function(cluster.member,input,signif.level) {
     sib1.se <- input[which(input$Clusters == sib1),c("GLM.SE")]
     sib2.se <- input[which(input$Clusters == sib2),c("GLM.SE")]
     
- 
-      if (sib1.p < signif.level | sib2.p < signif.level) {      
-        if (same.bettas(sib1.b,sib1.se,sib2.b,sib2.se)) {
-          cluster.member <- merge.into.parent(sib1,sib2,cluster.member)
-        } else {
-          cluster.member <- report.children(sib1,sib2,cluster.member)
-        }
-      } else {
+      if (is.na(sib1.p) | is.na(sib2.p)) {
         cluster.member <- merge.into.parent(sib1,sib2,cluster.member)
+      } else {
+        if (sib1.p < signif.level | sib2.p < signif.level) {      
+          if (same.bettas(sib1.b,sib1.se,sib2.b,sib2.se)) {
+            cluster.member <- merge.into.parent(sib1,sib2,cluster.member)
+          } else {
+            cluster.member <- report.children(sib1,sib2,cluster.member)
+          }
+        } else {
+          cluster.member <- merge.into.parent(sib1,sib2,cluster.member)
+        }
       }
+    
+    
     }  
   cluster.member <- bottom.up(cluster.member,input,signif.level)  
   return(cluster.member)
@@ -141,33 +146,13 @@ if (nrow(cluster.member) == 0) {
     cluster.member.t <- cluster.member
     input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
   
-# check if there are NA entries and adjust input & cluster.member accordingly
-    if (any(apply(input,2,function(x) any(is.na(x))))) {
-      clusts.na <- input[which(is.na(input$GLM.b)),c("Clusters")]
-      siblings <- vector()
-      for (j in 1:length(clusts.na)) {
-        siblings <- c(siblings,find.sibling(clusts.na[j],cluster.member.t))
-      }
-      clusts.na <- unique(c(clusts.na,siblings))
-      leaves <- cluster.member.t[which(cluster.member.t$Cluster1 == "." & cluster.member.t$Cluster2 == "."),c("Parent")]
-    #if all the NA entries are leaves:
-      if (length(intersect(clusts.na,leaves)) == length(clusts.na)) {
-        for (j in 1:length(clusts.na)) {
-          if (any(cluster.member.t$Parent %in% clusts.na[j])) {
-            cluster.member.t <- merge.into.parent(find.children(who.is.parent(clusts.na[j],cluster.member.t),cluster.member.t)[1],find.children(who.is.parent(clusts.na[j],cluster.member.t),cluster.member.t)[2],cluster.member.t)
-          } else next
-        }
-      } else next
-    }
-  
-  
     t1 <- bottom.up(cluster.member.t,input,signif.level)
     colnames(t1) <- c("Clusters","Cluster1","Cluster2")
 
     if (nrow(t1) == 1) {
       clust <- as.character(t1$Clusters)
       clust.p <- input[which(input$Clusters == clust),c("GLM.p")]
-      if (clust.p >= signif.level) next
+      if (is.na(clust.p) | clust.p >= signif.level) next
     }
 
     t2 <- merge(t1,input)
@@ -182,6 +167,12 @@ if (nrow(cluster.member) == 0) {
     }
 
     t2$Clust.sib <- sib.temp
+    
+    if(any(is.na(t2$GLM.b))) {
+        t2 <- filter(input, Clusters == as.character(max(as.numeric(input$Clusters)))) %>%
+            mutate(Allele = sub(".txt","",file.names[i]), Clust.sib = NA)
+        if (is.na(t2$GLM.p) | t2$GLM.p >= signif.level) next
+    }
 
     output <- rbind(output,t2)
   
