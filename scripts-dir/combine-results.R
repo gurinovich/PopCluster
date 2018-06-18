@@ -125,63 +125,71 @@ bottom.up <- function(cluster.member,input,signif.level) {
 
 file.names <- dir(files.dir)
 
-output <- data.frame(matrix(NA,nrow=1,ncol=6))
-names(output) <- c("Clusters","GLM.b","GLM.p", "GLM.SE","Allele","Clust.sib")
-
-if (nrow(cluster.member) == 0) {
-  for (i in 1:length(file.names)) {
-    input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
-    output[i, 1:5 ] <- as.vector(unlist(c(input[1,], sub(".txt", "", file.names[i]))))
-  }
-  
-  output$norm.betta <- as.numeric(output$GLM.b)/as.numeric(output$GLM.SE)
-  output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
-  output <- as.tbl(output)
-  output$GLM.p <- as.numeric(output$GLM.p)
-  output <- output %>% 
-    filter(GLM.p < 0.05)
-} else {
-  
-  for (i in 1:length(file.names)) {
-    cluster.member.t <- cluster.member
-    input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
-  
-    t1 <- bottom.up(cluster.member.t,input,signif.level)
-    colnames(t1) <- c("Clusters","Cluster1","Cluster2")
-
-    if (nrow(t1) == 1) {
-      clust <- as.character(t1$Clusters)
-      clust.p <- input[which(input$Clusters == clust),c("GLM.p")]
-      if (is.na(clust.p) | clust.p >= signif.level) next
-    }
-
-    t2 <- merge(t1,input)
-    t2 <- t2[,-which(names(t2) %in% c("Cluster1","Cluster2"))]
-    t2$Allele <- rep(sub(".txt","",file.names[i]),nrow(t2))
-
-    clust.temp <- t2$Clusters 
-    sib.temp <- vector()
-    for (j in 1:length(clust.temp)) {
-      sib.temp <- c(sib.temp, find.sibling(clust.temp[j],cluster.member))
-      if (!(sib.temp[j] %in% clust.temp)) sib.temp[j] <- NA
-    }
-
-    t2$Clust.sib <- sib.temp
+if (length(file.names) == 0) {
+    output <- data.frame(matrix(NA,nrow=1,ncol=7))
+    names(output) <- c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")
+    output <- output[-1,]   
     
-    if(any(is.na(t2$GLM.b))) {
-        t2 <- filter(input, Clusters == as.character(max(as.numeric(input$Clusters)))) %>%
-            mutate(Allele = sub(".txt","",file.names[i]), Clust.sib = NA)
-        if (is.na(t2$GLM.p) | t2$GLM.p >= signif.level) next
+} else {
+
+    output <- data.frame(matrix(NA,nrow=1,ncol=6))
+    names(output) <- c("Clusters","GLM.b","GLM.p", "GLM.SE","Allele","Clust.sib")
+    
+    if (nrow(cluster.member) == 0) {
+      for (i in 1:length(file.names)) {
+        input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
+        output[i, 1:5 ] <- as.vector(unlist(c(input[1,], sub(".txt", "", file.names[i]))))
+      }
+      
+      output$norm.betta <- as.numeric(output$GLM.b)/as.numeric(output$GLM.SE)
+      output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
+      output <- as.tbl(output)
+      output$GLM.p <- as.numeric(output$GLM.p)
+      output <- output %>% 
+        filter(GLM.p < 0.05)
+    } else {
+      
+      for (i in 1:length(file.names)) {
+        cluster.member.t <- cluster.member
+        input <- read.csv(paste0(files.dir,file.names[i]),colClasses=c("Clusters"="character"))
+      
+        t1 <- bottom.up(cluster.member.t,input,signif.level)
+        colnames(t1) <- c("Clusters","Cluster1","Cluster2")
+    
+        if (nrow(t1) == 1) {
+          clust <- as.character(t1$Clusters)
+          clust.p <- input[which(input$Clusters == clust),c("GLM.p")]
+          if (is.na(clust.p) | clust.p >= signif.level) next
+        }
+    
+        t2 <- merge(t1,input)
+        t2 <- t2[,-which(names(t2) %in% c("Cluster1","Cluster2"))]
+        t2$Allele <- rep(sub(".txt","",file.names[i]),nrow(t2))
+    
+        clust.temp <- t2$Clusters 
+        sib.temp <- vector()
+        for (j in 1:length(clust.temp)) {
+          sib.temp <- c(sib.temp, find.sibling(clust.temp[j],cluster.member))
+          if (!(sib.temp[j] %in% clust.temp)) sib.temp[j] <- NA
+        }
+    
+        t2$Clust.sib <- sib.temp
+        
+        if(any(is.na(t2$GLM.b))) {
+            t2 <- filter(input, Clusters == as.character(max(as.numeric(input$Clusters)))) %>%
+                mutate(Allele = sub(".txt","",file.names[i]), Clust.sib = NA)
+            if (is.na(t2$GLM.p) | t2$GLM.p >= signif.level) next
+        }
+    
+        output <- rbind(output,t2)
+      
+      }
+    
+      output <- output[-which(is.na(output$Allele)),]
+    
+      output$norm.betta <- output$GLM.b/output$GLM.SE
+      output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
     }
-
-    output <- rbind(output,t2)
-  
-  }
-
-  output <- output[-which(is.na(output$Allele)),]
-
-  output$norm.betta <- output$GLM.b/output$GLM.SE
-  output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
 }
-                  
+
 write.table(output,paste0(work.dir,"results-0.05.csv"),quote=F,sep=",",row.names=F)
