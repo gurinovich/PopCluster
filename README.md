@@ -38,12 +38,13 @@ To submit the job, run the following shell script:
 * SCRIPTSDIR: scripts-dir folder here (contains R scripts)
 * FILESDIR: files-dir folder here (contains input files (see README.md in ./files-dir for details))
 * EIGENSOFTDIR: eigensoft-dir folder here (contains EIGENSOFT files for calculating PCA from genome-wide genotype data (see README.md in ./eigensoft-dir for details))
-* ClusteringPCs: number of principal components used for clustering (default: 3, but recommended number for large datasets: 6)
-* maxclustsize: minimum cluster sizet to be included in the analysis (default: 30, but recommended number for large datasets: 100)
+* ClusteringPCs: number of principal components used for clustering (default: 6)
+* maxclustsize: minimum cluster sizet to be included in the analysis (default: 100)
 * GLMPCs: number of principal components included in the logistic regression (default: 4)
 * GLMfamily: link function to be used in the generalized linear model (default: binomial - for logistic regression)
 * Nsubjects: minimum number of cases and controls in a cluster for it to be considered for the analysis (default: 5)
 * MAF: minimum minor allele frequency (MAF) for a SNP in a cluster for it to be considered for the analysis (default: 0.05)
+* Pvalue: significance level used for comparison of sibling leaf nodes in the pruning of a dendrogram (default: 0.05)
 
 All the directories should be complete paths and should end in "/", for example: "/restricted/projectnb/necs/Nastia-Analysis/clustering-procedure/".
 
