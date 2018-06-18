@@ -6,7 +6,7 @@ work.dir <- args[1]
 files.dir <- paste0(work.dir,"full-summary/")
 clust.dir <- paste0(work.dir, "clusters/")
 cluster.member <- read.csv(paste0(work.dir,"cluster_membership.txt"),colClasses="character")
-signif.level <- 0.05
+signif.level <- as.numeric(args[2])
 
 # ----------------------- START FUNCTIONS ----------------------------
 
