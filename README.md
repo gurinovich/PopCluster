@@ -39,7 +39,7 @@ To submit the job, run the following shell script:
 * FILESDIR: files-dir folder here (contains input files (see README.md in ./files-dir for details))
 * EIGENSOFTDIR: eigensoft-dir folder here (contains EIGENSOFT files for calculating PCA from genome-wide genotype data (see README.md in ./eigensoft-dir for details))
 * ClusteringPCs: number of principal components used for clustering (default: 6)
-* maxclustsize: minimum cluster sizet to be included in the analysis (default: 100)
+* maxclustsize: minimum cluster sizet to be included in the analysis (default: 100. **Make sure this number is less than or equal to number of subjects in the dataset. For the example dataset provided (mega-data-noPCs.csv in ./files-dir/) - please, change this number accordingly (< 90).**)
 * GLMPCs: number of principal components included in the logistic regression (default: 4)
 * GLMfamily: link function to be used in the generalized linear model (default: binomial - for logistic regression)
 * Nsubjects: minimum number of cases and controls in a cluster for it to be considered for the analysis (default: 5)
