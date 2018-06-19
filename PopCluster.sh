@@ -48,6 +48,6 @@ done
 wait
 
 #PopCluster
-Rscript $SCRIPTSDIR"create_summary.R" $RESULTSDIR $WORKDIR $SNPs $covariates $GLMPCs $GLMfamily --save
+Rscript $SCRIPTSDIR"create_summary.R" $RESULTSDIR $WORKDIR $SNPs $covariates $GLMPCs $GLMfamily $Nsubjects $MAF --save
 wait
 Rscript $SCRIPTSDIR"combine-results.R" $RESULTSDIR $Pvalue --save
