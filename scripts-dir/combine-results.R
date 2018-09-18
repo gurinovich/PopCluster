@@ -127,7 +127,7 @@ file.names <- dir(files.dir)
 
 if (length(file.names) == 0) {
     output <- data.frame(matrix(NA,nrow=1,ncol=7))
-    names(output) <- c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")
+    names(output) <- c("Allele","Clusters","Clust.sib","OR", "GLM.p","GLM.b","GLM.SE")
     output <- output[-1,]   
     
 } else {
@@ -141,8 +141,8 @@ if (length(file.names) == 0) {
         output[i, 1:5 ] <- as.vector(unlist(c(input[1,], sub(".txt", "", file.names[i]))))
       }
       
-      output$norm.betta <- as.numeric(output$GLM.b)/as.numeric(output$GLM.SE)
-      output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
+      output$OR <- as.numeric(exp(output$GLM.b))
+      output <- output[,c("Allele","Clusters","Clust.sib","OR", "GLM.p","GLM.b","GLM.SE")]
       output <- as.tbl(output)
       output$GLM.p <- as.numeric(output$GLM.p)
       output <- output %>% 
@@ -187,8 +187,8 @@ if (length(file.names) == 0) {
     
       output <- output[-which(is.na(output$Allele)),]
     
-      output$norm.betta <- output$GLM.b/output$GLM.SE
-      output <- output[,c("Allele","Clusters","Clust.sib","norm.betta", "GLM.p","GLM.b","GLM.SE")]
+      output$OR <- exp(output$GLM.b)
+      output <- output[,c("Allele","Clusters","Clust.sib","OR", "GLM.p","GLM.b","GLM.SE")]
     }
 }
 
