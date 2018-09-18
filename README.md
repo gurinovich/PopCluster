@@ -30,7 +30,7 @@ in R:
 ## Execution
 To submit the job, run the following shell script:
 
-*sh PopCluster.sh arguments.txt*
+*./PopCluster.sh arguments.txt*
 
 **arguments.txt** file contains arguments that include paths that need to be changed and default values for parameters that can be changed as well:
 
