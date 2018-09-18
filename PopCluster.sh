@@ -51,3 +51,18 @@ wait
 Rscript $SCRIPTSDIR"create_summary.R" $RESULTSDIR $WORKDIR $SNPs $covariates $GLMPCs $GLMfamily $Nsubjects $MAF --save
 wait
 Rscript $SCRIPTSDIR"combine-results.R" $RESULTSDIR $Pvalue --save
+
+{
+  echo 'results-0.05.csv file contains the results of PopCluster.'
+  echo 'Columns: Allele: name of the SNP/allele; Clusters: name of the cluster (represents the size of the cluster); Clust.sib: sibling cluster (if returned); OR: odds ratio of associaiton; GLM.p: p-value of associaiton; GLM.b: estimate from regression model; GLM.SE: standard error of the estimate from the regression model.'
+  echo ''
+  echo 'cluster_membership.txt file has a tree structure of the final results.'
+  echo ''
+  echo 'PCA folder contains PCA results of the returned clusters.'
+  echo ''
+  echo 'full-summary folder contains complete regression results of the returned associations.'
+  echo ''
+  echo 'clusters folder contains family and id information for each subject in respective clusters.'
+  echo ''
+  echo 'analysis folder contains extracted PCA results for each of the returned clusters.'
+} > $RESULTSDIR/README.txt
