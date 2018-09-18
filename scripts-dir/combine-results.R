@@ -141,7 +141,7 @@ if (length(file.names) == 0) {
         output[i, 1:5 ] <- as.vector(unlist(c(input[1,], sub(".txt", "", file.names[i]))))
       }
       
-      output$OR <- as.numeric(exp(output$GLM.b))
+      output$OR <- exp(as.numeric(output$GLM.b))
       output <- output[,c("Allele","Clusters","Clust.sib","OR", "GLM.p","GLM.b","GLM.SE")]
       output <- as.tbl(output)
       output$GLM.p <- as.numeric(output$GLM.p)
@@ -187,7 +187,7 @@ if (length(file.names) == 0) {
     
       output <- output[-which(is.na(output$Allele)),]
     
-      output$OR <- exp(output$GLM.b)
+      output$OR <- exp(as.numeric(output$GLM.b))
       output <- output[,c("Allele","Clusters","Clust.sib","OR", "GLM.p","GLM.b","GLM.SE")]
     }
 }
